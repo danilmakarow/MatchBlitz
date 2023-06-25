@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {GameService} from "../../../shared/game.service";
 import {Router} from "@angular/router";
+import {GameConf} from "../../../shared/interfaces/gameConfiguration.interface";
 
 @Component({
   selector: 'app-game-begin',
@@ -19,6 +20,13 @@ export class GameBeginComponent {
     private game: GameService,
     private router: Router
     ) {
+    if(game.settingsConfiguration){
+      const savedSettings = game.settingsConfiguration;
+
+      this.matchAmount = savedSettings.matchAmount;
+      this.pickAmount = savedSettings.pickLimit[savedSettings.pickLimit.length - 1];
+      this.startsPlayer = savedSettings.startsPlayer
+    }
   }
 
   public onStart(): void {
@@ -26,11 +34,9 @@ export class GameBeginComponent {
     if(this.matchAmount/(this.pickAmount * 2) < 1)
       this.snackBar.open('General amount of Matches cant be smaller than doubled amount of Matches to take', 'ok')
     else {
-      const pickArr = Array.from(
-        { length: this.pickAmount },
-        (_, index) => index + 1);
+      const conf = this.createConfObject()
 
-      this.game.setSettings(this.matchAmount, pickArr, this.startsPlayer)
+      this.game.setSettings(conf)
       this.router.navigateByUrl('home/play')
     }
   }
@@ -39,5 +45,18 @@ export class GameBeginComponent {
     this.matchAmount = 15;
     this.pickAmount = 3;
     this.startsPlayer = true
+  }
+
+  private createConfObject(): GameConf {
+    const pickArr = Array.from(
+      { length: this.pickAmount },
+      (_, index) => index + 1
+    );
+
+    return  {
+      startsPlayer: this.startsPlayer,
+      matchAmount: this.matchAmount,
+      pickLimit: pickArr
+    }
   }
 }

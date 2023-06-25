@@ -56,8 +56,8 @@
         Congratulations 🎊
       </p>
       <div class="flex flex_gap--10 flex--center">
-        <button mat-raised-button color="primary">Play Again</button>
-        <button mat-raised-button>Change settings</button>
+        <button mat-raised-button color="primary" (click)="onPlayAgain()">Play Again</button>
+        <button mat-raised-button (click)="onChangeSettings()">Change settings</button>
       </div>
     </div>
   </div>

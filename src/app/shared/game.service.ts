@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AiService} from "./ai.service";
+import {GameConf} from "./interfaces/gameConfiguration.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,8 @@ export class GameService {
 
   public winner: 'AI' | 'player' | null = null;
 
+  public settingsConfiguration! : GameConf;
+
   constructor(
     private snackBar: MatSnackBar,
     private ai: AiService,
@@ -23,7 +26,7 @@ export class GameService {
 
   public onMove(matches: number, move: string): void {
     if (matches > this.matchAmount) {
-      this.snackBar.open('You can take more matches than pile has', 'ok');
+      this.snackBar.open('You can`t take more matches than pile has', 'ok');
       return;
     }
 
@@ -43,10 +46,13 @@ export class GameService {
     this.currentMove = 'end';
   }
 
-  public setSettings(matches: number, pickLimit: number[], startsPlayer: boolean): void {
-    this.matchAmount = matches;
-    this.pickLimit = pickLimit;
-    this.currentMove = startsPlayer ? 'player' : 'AI';
+  public setSettings(conf?: GameConf): void {
+    if(conf)
+      this.settingsConfiguration = conf;
+
+    this.matchAmount = this.settingsConfiguration.matchAmount;
+    this.pickLimit = this.settingsConfiguration.pickLimit;
+    this.currentMove = this.settingsConfiguration.startsPlayer ? 'player' : 'AI';
 
     this.aiMatches = this.playersMatches = 0;
 
