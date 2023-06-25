@@ -1,0 +1,64 @@
+<main class="padding--20">
+  <header class="flex flex--space-between flex_align--top margin_b-30">
+    <div class="flex flex_align--center">
+      <div class="header--description width--min">
+        <p>you</p>
+        <p>have</p>
+      </div>
+      <span class="header-number">{{game.playersMatches}}</span>
+    </div>
+    <div class="">
+      <p class="header--description text_align--center">in pile</p>
+      <p class="header-number primary">{{game.matchAmount}}🕯️</p>
+    </div>
+    <div class="flex flex_align--center">
+      <div class="header--description width--min">
+        <p>AI</p>
+        <p>has</p>
+      </div>
+      <span class="header-number">{{game.aiMatches}}</span>
+    </div>
+  </header>
+
+  <div class="turn margin_x-a flex flex_align--center flex--center margin_b-30">
+    <p *ngIf="game.currentMove as turn; else loading" class="text_align--center">
+      {{game.currentMove === 'AI' ? "AI's move" : "your move"}}
+    </p>
+    <ng-template #loading>
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </ng-template>
+  </div>
+
+  <div class="matches-pick-box" *ngIf="game.currentMove === 'player'">
+    <p class="text_align--center margin_b-10">Choose matches to take</p>
+    <div class="flex flex--center flex_gap--10">
+      <div class="" *ngFor="let pick of game.pickLimit">
+        <button mat-mini-fab [matTooltip]="'Choose '  + pick + ' matches'" color="basic" (click)="onPlayersMove(pick)">
+          {{pick}}🕯️
+        </button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="game.currentMove === 'AI'">
+    <div class="ai-move-box">
+      <h2 class="text_align--center margin_b-20">
+        🤖 calculating it's move...
+      </h2>
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  </div>
+  <div *ngIf="game.currentMove === 'end'">
+    <div class="text_align--center font_size--20">
+      <h2 class="margin_b-5 ">
+        {{game.winner | titlecase }} Won the game🎉
+      </h2>
+      <p class="margin_b-20">
+        Congratulations 🎊
+      </p>
+      <div class="flex flex_gap--10 flex--center">
+        <button mat-raised-button color="primary">Play Again</button>
+        <button mat-raised-button>Change settings</button>
+      </div>
+    </div>
+  </div>
+</main>

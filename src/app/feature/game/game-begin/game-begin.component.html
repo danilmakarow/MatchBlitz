@@ -1,0 +1,80 @@
+<main class="grid grid--2cols">
+  <div class="">
+    <header class="flex flex--space-between flex_align--center margin_b-20">
+      <h2 class="">Settings</h2>
+      <button mat-button color="basic" (click)="onReset()">Set to default</button>
+    </header>
+
+    <div>
+      <div class="margin_b-20">
+        <p class="margin_b-10">Who's first move</p>
+        <div class="">
+          <span>AI </span>
+          <mat-slide-toggle [checked]="true" [(ngModel)]="startsPlayer"></mat-slide-toggle>
+          <span> Player</span>
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <div class="margin_b-20">
+        <div class="flex flex--space-between">
+          <label>General amount of Matches</label>
+          <label >{{matchAmount}}</label>
+        </div>
+        <mat-slider
+          class="matches-amount-input"
+          [max]="99"
+          [min]="9"
+          [step]="2"
+          discrete="true"
+          showTickMarks="true">
+          <input
+            matSliderThumb
+            [(ngModel)]="matchAmount"
+          >
+        </mat-slider>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <div class="margin_b-10">
+        <div class="flex flex--space-between">
+          <label>Maximum amount of Matches to take</label>
+          <label >{{pickAmount}}</label>
+        </div>
+        <mat-slider
+          class="matches-amount-input"
+          [max]="9"
+          [min]="3"
+          [step]="1"
+          [discrete]="true"
+          [showTickMarks]="true">
+          <input
+            matSliderThumb
+            [(ngModel)]="pickAmount"
+          >
+        </mat-slider>
+      </div>
+    </div>
+  </div>
+  <div class="">
+    <h2 class="margin_b-20">Rules</h2>
+
+    <p class="margin_b-10">
+      Player and AI are playing the game. From the pile of 25 matches, each player takes either 1, 2 or 3 matches on each turn. The game is over once all matches are taken. Whoever has the even amount of matches wins.
+    </p>
+
+    <ol>
+      <li>Start with a pile of 25 matches.</li>
+      <li>Two players take turns to play the game.</li>
+      <li>On each turn, a player selects either 1, 2, or 3 matches from the pile.</li>
+      <li>The selected matches are removed from the pile.</li>
+      <li>The game continues until all matches are taken.</li>
+      <li>The player who ends up with an even number of matches is declared the winner</li>
+    </ol>
+  </div>
+</main>
+<div class="flex">
+  <button mat-raised-button color="primary" class="margin_x-a" (click)="onStart()">Start Game!</button>
+</div>
